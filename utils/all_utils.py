@@ -7,17 +7,36 @@ import os
 plt.style.use("fivethirtyeight")  #style of graphs
 
 def prepare_data(df):
+  """it prepares data by separating features (dependent) and labels (independent)
+
+  Args:
+      df (pd.DataFrame): takes dataFrame as input
+
+  Returns:
+      tuple: returns tuples  of dependent and independent variables
+  """
   x = df.drop("y",axis =1)
   y = df["y"]
   return x,y
 
 def save_model(model,filename):
+  """saves model
+
+  Args:
+      model (python object): trained model
+      filename (str): path to save model name
+  """
   model_dir = "models"
   os.makedirs(model_dir,exist_ok=True) #create only when mode_dir doesn't exist
   filepath = os.path.join(model_dir,filename) #concatenate model_dir/filename
   joblib.dump(model,filepath)
 
 def save_plot(df,filename,model):
+  """
+    :param df : its a dataframe
+    :param filename : its path to save the plot
+    :param model : trained model
+  """
   def _create_base_plot_(df):
     df.plot(kind="scatter",x="x1",y="x2",c="y",s=100,cmap="winter")
     plt.axhline(y=0,color="black",linestyle="--",linewidth=1)
