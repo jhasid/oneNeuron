@@ -4,6 +4,7 @@ import pandas as pd
 import joblib    #for saving model as lib
 from matplotlib.colors import ListedColormap
 import os
+import logging
 plt.style.use("fivethirtyeight")  #style of graphs
 
 def prepare_data(df):
@@ -15,6 +16,7 @@ def prepare_data(df):
   Returns:
       tuple: returns tuples  of dependent and independent variables
   """
+  logging.info("preparing data by separating independent and dependent variables")
   x = df.drop("y",axis =1)
   y = df["y"]
   return x,y
@@ -26,10 +28,12 @@ def save_model(model,filename):
       model (python object): trained model
       filename (str): path to save model name
   """
+  logging.info("saving the model")
   model_dir = "models"
   os.makedirs(model_dir,exist_ok=True) #create only when mode_dir doesn't exist
   filepath = os.path.join(model_dir,filename) #concatenate model_dir/filename
   joblib.dump(model,filepath)
+  logging.info(f"saved the model at {filepath}")
 
 def save_plot(df,filename,model):
   """
@@ -37,7 +41,9 @@ def save_plot(df,filename,model):
     :param filename : its path to save the plot
     :param model : trained model
   """
+  logging.info("start plotting the model")
   def _create_base_plot_(df):
+    logging.info("creating a base plot")
     df.plot(kind="scatter",x="x1",y="x2",c="y",s=100,cmap="winter")
     plt.axhline(y=0,color="black",linestyle="--",linewidth=1)
     plt.axvline(x=0,color="blue",linestyle="--",linewidth=1)
@@ -46,6 +52,7 @@ def save_plot(df,filename,model):
     figure.set_size_inches(10,8)
 
   def _plot_decision_region_(x,y,classifier,resolution=0.2):
+    logging.info("plotting decision region")
     colors =("red","blue","green","pink","gray")
     cmap = ListedColormap(colors[: len(np.unique(y))])  #bases of y value colors,here there are 2 so 2 colors
 
@@ -72,3 +79,4 @@ def save_plot(df,filename,model):
   os.makedirs(plot_dir,exist_ok=True)
   plotpath = os.path.join(plot_dir,filename)
   plt.savefig(plotpath)  
+  logging.info(f"saving the plot at { plotpath}")
