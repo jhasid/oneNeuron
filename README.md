@@ -9,4 +9,4 @@ git add . && git commit -m "docstring update" && git push origin main
 [Git Handbook](https://guides.github.com/introduction/git-handbook/)
 
 #Add image
-![Sample Image] (plots\orPlot.png)
+![Sample Image] (plots/orPlot.png)
